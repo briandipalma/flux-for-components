@@ -1,3 +1,9 @@
+---
+layout: index
+permalink: /index.html
+title: This is my title
+---
+
 Following some good community reviews of React we're experimenting with React and the Flux application pattern.
 We want to see how it measures up against our current Knockout based approach. If you're coming to this post with no knowledge of React and Flux this might not be the best starting point to learn about them. Some of the concepts around Flux will be explained but this is not meant to be an introductionary post.
 
