@@ -1,7 +1,8 @@
 ---
 layout: index
 permalink: /index.html
-title: This is my title
+title: Flux for components.
+subtitle: Some sort of subtitle.
 ---
 
 Following some good community reviews of React we're experimenting with React and the Flux application pattern.
