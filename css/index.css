@@ -1,0 +1,15 @@
+body {
+	background-color: #FFFFF9;
+}
+
+main {
+	font-size: 20px;
+	margin: 0px auto;
+	max-width: 750px;
+}
+
+article img {
+	max-width: 100%;
+	margin: 1.5em 0;
+	border: 2px solid #555;
+}
