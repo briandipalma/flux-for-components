@@ -1,14 +1,23 @@
 ---
 layout: index
 permalink: /index.html
-title: Flux for components.
-subtitle: The flux pattern, without the globals.
+title: Flux for components
+subtitle: The Flux pattern, without the globals
 ---
 
-Following some good community reviews of React we're experimenting with React and the Flux application pattern.
-We want to see how it measures up against our current Knockout based approach. If you're coming to this post with no knowledge of React and Flux this might not be the best starting point to learn about them. Some of the concepts around Flux will be explained but this is not meant to be an introductionary post.
+There is no shared, single implementation of Flux, the one source of truth that we can all point to.
+That makes sense, it's a software pattern after all. Not a concrete artifact like a library or framework.
+This has encouraged developers to create variations on and [implementations](http://fluxxor.com/)
+of the pattern.
+
+I've explained a variation of the Flux pattern often enough that I felt it was time to put
+it into a blog. If you're coming to this post with no knowledge of Flux this will not be the best
+starting point to learn about it. Some of the concepts will be explained but this is not meant to be
+an introductionary post.
 
 ### What's what.
+
+We want to see how it measures up against our current Knockout based approach.
 
 React is a library that provides the "V" in your front end stack. It handles the view and is agnostic as to what technology you use to drive it.
 You can plug it into Backbone, Angular or any other stack that provides concepts such as models and controllers or anything that can drive a view.
