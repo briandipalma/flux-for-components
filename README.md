@@ -16,31 +16,37 @@ it into a blog. If you're coming to this post with no knowledge of Flux this wil
 starting point to learn about it. Some of the concepts will be explained but this is not an
 introductionary post.
 
-### Context.
+### Context
 
 I've been working on [Knockout](http://knockoutjs.com/) based applications for several years;
 since before frameworks like Angular and Ember were mature. Knockout though has been showing some of
 it's limitations and age.
 
+Knockout expects the data that it inserts into the DOM to be wrapped in Knockout observables.
 There are no layers or abstractions with which to reason for complex components, it's all
 about observables. Knockout observables end up spreading everywhere. If a model class is interested
 in a field value you will pass the observable to it and to all the classes that wish to access
-that value. When the value changes the change cascades through all those classes. For small components
-this is not an issue, you can hold the flow of data in your head. As components scale in complexity 
-though it becomes impossible to correctly reason about your components.
+that value. When the value changes the change cascades through all those classes.
 
-Flux provides something that Knockout sorely lacks, structure and abstractions for scaling.
+For small components this is not an issue, you can hold the flow of data in your head.
+As components scale in complexity though it becomes harder to correctly reason about your components.
 
-### Differences from Facebook Flux pattern.
+Flux provides something that Knockout sorely lacks, structure and abstractions for scaling and a
+well defined and consistent data flow.
+
+### Constraints
+
+Our applications are real time trading solutions with the possibility of spikes in streaming
+traffic and high levels of updates. We could have clients with 10+ FX tiles open in a layout, each
+of those streaming updates for highly active currency pairs. 4 updates a second per currency pair was
+a benchmark we have been set before. Tiles could be opened up, so they would have ladders displaying
+multiple prices (different settlement dates or traded amounts would have different prices).
+This meant a tile could have 9 separate sets of prices streaming in, one for each row in a ladder.
+
+We also had tabbed layouts which allowed clients to have background tabs open with a different set
+of tiles. These tiles would not be visible and we didn't want them to interfere with the performance
+of the visible ones.
+
+### Differences from the Facebook Flux pattern
 
 ![My helpful screenshot]({{ site.url }}/assets/flux-diagram-white-background.png)
-
-
-We want to see how it measures up against our current Knockout based approach.
-
-React is a library that provides the "V" in your front end stack. It handles the view and is agnostic
-as to what technology you use to drive it.
-You can plug it into Backbone, Angular or any other stack that provides concepts such as models and
-controllers or anything that can drive a view.
-Knockout is slightly more opinionated and expects the data that it inserts into the DOM to be wrapped
-in Knockout observables but it also focuses on the view layer.
