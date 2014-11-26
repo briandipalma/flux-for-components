@@ -23,14 +23,16 @@ I've been working on [Knockout](http://knockoutjs.com/) based applications for s
 since before frameworks like Angular and Ember were mature. Knockout though has been showing some of
 it's limitations and age.
 
-Knockout expects the data that it inserts into the DOM to be wrapped in Knockout observables.
+Knockout needs the data that it binds to the DOM to be wrapped in Knockout observables.
 There are no layers or abstractions with which to reason for complex components, it's all
-about observables. Knockout observables end up spreading everywhere. If a model class is interested
-in a field value you will pass the observable to it and to all the classes that wish to access
-that value. When the value changes the change cascades through all those classes.
+about observables. Knockout observables end up spreading everywhere. If an observable depends on
+another observable in a different model class you will need to couple those two
+model classes to pass the observable. Classes would reach inside each other and access observables
+without a second thought. They would modify the observable value if they needed.
 
-For small components this is not an issue, you can hold the flow of data in your head.
-As components scale in complexity though it becomes harder to correctly reason about your components.
+For small to medium complexity components this is not an issue, you can hold the structure in your head.
+As components scale in complexity though, it becomes harder to correctly reason about your code structure
+and data flow.
 
 Flux provides something that Knockout sorely lacks, structure and abstractions for scaling and a
 well defined and consistent data flow.
