@@ -3,6 +3,7 @@ layout: index
 permalink: /index.html
 title: Flux for components
 subtitle: The Flux pattern, without the globals
+
 ---
 
 There is no shared, single version of Flux, the one source of truth that we can all point to.
@@ -49,4 +50,4 @@ of the visible ones.
 
 ### Differences from the Facebook Flux pattern
 
-![My helpful screenshot]({{ site.url }}/assets/flux-diagram-white-background.png)
+![My helpful screenshot](assets/flux-diagram-white-background.png)
