@@ -42,14 +42,22 @@ well defined and consistent data flow.
 Our applications are real time trading solutions with the possibility of spikes in streaming
 traffic and high levels of updates. We could have clients with 10+ FX tiles open in a layout, each
 of those streaming updates for highly active currency pairs. 4 updates a second per currency pair was
-a benchmark we have been set before. Tiles could be opened up, so they would have ladders displaying
+a benchmark we have been set before. Tiles could be opened up, so they could display
 multiple prices (different settlement dates or traded amounts would have different prices).
 This meant a tile could have 9 separate sets of prices streaming in, one for each row in a ladder.
 
 We also had tabbed layouts which allowed clients to have background tabs open with a different set
 of tiles. These tiles would not be visible and we didn't want them to interfere with the performance
-of the visible ones.
+of the visible ones. In essence we wanted each tile component to be separate from all the other tile
+components. This would allow granular control over every tile's data subscriptions and behaviour.
 
-### Differences from the Facebook Flux pattern
+### Concerns with the Facebook Flux pattern
 
-![My helpful screenshot](assets/flux-diagram-white-background.png)
+These constraints meant that we were wary of adopting the Flux pattern as implemented in the example
+[Flux applications](https://github.com/facebook/flux/). The general data flow and abstractions,
+were appealing but the exact mechanics we wanted to tweak.
+
+![Flux data flow.](assets/flux-diagram-white-background.png)
+
+The change we made to the pattern was to make the actors of the system class instances.
+In the Flux example applications the Stores, ActionCreators and Dispatchers are all Singletons.
