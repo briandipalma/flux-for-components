@@ -60,4 +60,11 @@ were appealing but the exact mechanics we wanted to tweak.
 ![Flux data flow.](assets/flux-diagram-white-background.png)
 
 The change we made to the pattern was to make the actors of the system class instances.
-In the Flux example applications the Stores, ActionCreators and Dispatchers are all Singletons.
+In the example Flux applications the Stores, ActionCreators and Dispatchers are all Singletons.
+This is fine if you only have one instance of a component or have a low flow of data
+through the Dispatcher. With one component instance (let's say an application menu) you wouldn't
+need multiple instances of its ActionCreator or Store. If you had a low flow of data and
+multiple instances of a component you could distinguish data by a component unique ID.
+
+In the case of a component with a high update rate, high complexity and significant amounts
+of state the Singleton approach seemed awkward.
