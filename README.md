@@ -28,7 +28,8 @@ There are no layers or abstractions with which to reason for complex components,
 about observables. Knockout observables end up spreading everywhere. If an observable depends on
 another observable in a different model class you will need to couple those two
 model classes to pass the observable. Classes would reach inside each other and access observables
-without a second thought. They would modify the observable value if they needed.
+without a second thought. They would modify the observable value if they needed, there was no
+explicit ownership of model data.
 
 For small to medium complexity components this is not an issue, you can hold the structure in your head.
 As components scale in complexity though, it becomes harder to correctly reason about your code structure
