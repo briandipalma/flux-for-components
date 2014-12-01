@@ -31,9 +31,9 @@ model classes to pass the observable. Classes would reach inside each other and 
 without a second thought. They would modify the observable value if they needed, there was no
 explicit ownership of model data.
 
-For small to medium complexity components this is not an issue, you can hold the structure in your head.
-As components scale in complexity though, it becomes harder to correctly reason about your code structure
-and data flow.
+For small to medium complexity components this is not an issue, you can hold the structure in your
+head. As components scale in complexity though, it becomes harder to correctly reason about your code
+structure and data flow.
 
 Flux provides something that Knockout sorely lacks, structure and abstractions for scaling and a
 well defined and consistent data flow.
@@ -65,7 +65,18 @@ In the example Flux applications the Stores, ActionCreators and Dispatchers are 
 This is fine if you only have one instance of a component or have a low flow of data
 through the Dispatcher. With one component instance (let's say an application menu) you wouldn't
 need multiple instances of its ActionCreator or Store. If you had a low flow of data and
-multiple instances of a component you could distinguish data by a component unique ID.
+multiple instances of a component you could distinguish data by a unique component ID.
 
 In the case of a component with a high update rate, high complexity and significant amounts
-of state the Singleton approach seemed awkward.
+of state the Singleton approach seemed awkward and potentially painful.
+
+Awkward as there would need to be code in Stores, ActionCreators and Views to distinguish Actions
+by component ID. With Singletons each instance of your component would have to generate a unique ID
+and pass that around as a namespace for your component data. You wouldn't want a chat message from
+one chat window being added to every single chat thread.
+
+```javascript
+getAllForThread: function(threadID) {
+	...
+}
+```
