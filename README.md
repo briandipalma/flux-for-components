@@ -73,10 +73,20 @@ of state the Singleton approach seemed awkward and potentially painful.
 Awkward as there would need to be code in Stores, ActionCreators and Views to distinguish Actions
 by component ID. With Singletons each instance of your component would have to generate a unique ID
 and pass that around as a namespace for your component data. You wouldn't want a chat message from
-one chat window being added to every single chat thread.
+one chat window being added to every single chat thread. This would result in a lot of boilerplate
+code that passes around IDs and filters data based on these IDs.
 
 ```javascript
 getAllForThread: function(threadID) {
+	var threadMessages = [];
+	for (var id in _messages) {
+		if (_messages[id].threadID === threadID) {
+			threadMessages.push(_messages[id]);
+		}
+	}
 	...
 }
 ```
+
+The snippet above, from the Flux chat example application, displays the sort of boilerplate
+required. Not complex by an stretch but removing this incidental complexity is a plus.
