@@ -90,3 +90,20 @@ getAllForThread: function(threadID) {
 
 The snippet above, from the Flux chat example application, displays the sort of boilerplate
 required. Not complex by an stretch but removing this incidental complexity is a plus.
+
+The other worry are performance issues due to the high volume of data flowing into Stores
+which then emit change events and trigger a View rerender. As all instances of a View would be
+registered to the same Store they would all be notified on a Store state change.
+
+```javascript
+	case ActionTypes.CLICK_THREAD:
+		ChatAppDispatcher.waitFor([ThreadStore.dispatchToken]);
+		_markAllInThreadRead(ThreadStore.getCurrentID());
+		MessageStore.emitChange();
+		break;
+```
+
+The snippet above, again from the Flux chat example application, shows how when the store
+changes its state it indiscriminately notifies all the component Views listening to it.
+
+When using React it shouldn't result in 
