@@ -105,5 +105,11 @@ registered to the same Store they would all be notified on a Store state change.
 
 The snippet above, again from the Flux chat example application, shows how when the store
 changes its state it indiscriminately notifies all the component Views listening to it.
+If you have 10 chat windows and one triggers an Action which updates its Store all 10 chat window
+Views could trigger a rerender. There are several reasons why when using React it shouldn't result in
+too much waste. Firstly it batches Virtual DOM diffing secondly the Virtual DOM prevents unnecessary
+DOM updates and finally you could implement custom `shouldComponentUpdate` methods for your components.
 
-When using React it shouldn't result in 
+Given the high update rates for certain tiles, which would trigger rerender requests for tiles that
+might not even be visible we had to consider the possibility of needing those custom
+`shouldComponentUpdate` methods.
