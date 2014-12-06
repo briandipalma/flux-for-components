@@ -76,7 +76,7 @@ and pass that around as a namespace for your component data. You wouldn't want a
 one chat window being added to every single chat thread. This would result in a lot of boilerplate
 code that passes around IDs and filters data based on these IDs.
 
-```javascript
+{% highlight javascript %}
 getAllForThread: function(threadID) {
 	var threadMessages = [];
 	for (var id in _messages) {
@@ -86,7 +86,7 @@ getAllForThread: function(threadID) {
 	}
 	...
 }
-```
+{% endhighlight %}
 
 The snippet above, from the Flux chat example application, displays the sort of boilerplate
 required. Not complex by an stretch but removing this incidental complexity is a plus.
@@ -95,13 +95,13 @@ The other worry are performance issues due to the high volume of data flowing in
 which then emit change events and trigger a View rerender. As all instances of a View would be
 registered to the same Store they would all be notified on a Store state change.
 
-```javascript
-	case ActionTypes.CLICK_THREAD:
-		ChatAppDispatcher.waitFor([ThreadStore.dispatchToken]);
-		_markAllInThreadRead(ThreadStore.getCurrentID());
-		MessageStore.emitChange();
-		break;
-```
+{% highlight javascript %}
+case ActionTypes.CLICK_THREAD:
+	ChatAppDispatcher.waitFor([ThreadStore.dispatchToken]);
+	_markAllInThreadRead(ThreadStore.getCurrentID());
+	MessageStore.emitChange();
+	break;
+{% endhighlight %}
 
 The snippet above, again from the Flux chat example application, shows how when the store
 changes its state it indiscriminately notifies all the component Views listening to it.
@@ -113,3 +113,6 @@ DOM updates and finally you could implement custom `shouldComponentUpdate` metho
 Given the high update rates for certain tiles, which would trigger rerender requests for tiles that
 might not even be visible we had to consider the possibility of needing those custom
 `shouldComponentUpdate` methods.
+
+While all of the above concerns are highly tractable, it would have been preferable if we
+didn't need to worry about them at all.
