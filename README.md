@@ -57,7 +57,7 @@ were appealing but the exact mechanics we wanted to tweak.
 The change we made to the pattern was to make the actors of the system class instances.
 In the example Flux applications the Stores, ActionCreators and Dispatchers are all Singletons.
 This is fine if you only have one instance of a component or have a low flow of data
-through the Dispatcher. With one component instance (let's say an application menu) you wouldn't
+through the Dispatcher. With one component instance (let's say a shopping cart) you wouldn't
 need multiple instances of its ActionCreator or Store. If you had a low flow of data and
 multiple instances of a component you could distinguish data by a unique component ID.
 
