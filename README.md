@@ -12,7 +12,7 @@ framework. This has encouraged developers to create various implementations of t
 I've explained an approach to the Flux pattern often enough that I felt it was time to put
 it into a blog.
 
-### Context
+## Context
 
 I've been working on Knockout based applications for several years;
 since before frameworks like Angular and Ember were mature. Knockout though has been showing some of
@@ -32,7 +32,7 @@ structure and data flow.
 Flux provides something that Knockout sorely lacks, structure and abstractions for scaling and a
 well defined and consistent data flow.
 
-### Constraints
+## Constraints
 
 Our applications are real time trading solutions. They must handle spikes in streaming
 traffic and high levels of updates. We could have clients with 10+ FX tiles open in a layout, each
@@ -48,7 +48,7 @@ of tiles. These tiles would not be visible and we didn't want hidden components 
 performance of the application. In essence we wanted each tile component to be separate from the other
 tile components. This would allow granular control over every tile's data subscriptions and behaviour.
 
-### Concerns with the Facebook Flux pattern
+## Concerns with the Facebook Flux pattern
 
 These constraints meant that we were wary of adopting the Flux pattern as implemented in the example
 [Flux applications](https://github.com/facebook/flux/). The general data flow and abstractions,
@@ -56,19 +56,20 @@ were appealing but the exact mechanics we wanted to tweak.
 
 The change we made to the pattern was to make the actors of the system class instances.
 In the example Flux applications the Stores, ActionCreators and Dispatchers are all Singletons.
-This is fine if you only have one instance of a component or have a low flow of data
-through the Dispatcher. With one component instance (let's say a shopping cart) you wouldn't
-need multiple instances of its ActionCreator or Store. If you had a low flow of data and
-multiple instances of a component you could distinguish data by a unique component ID.
+This is fine if you only have one instance of a component (let's say a shopping cart). With one
+component instance you don't need multiple instances of its ActionCreators or Stores.
 
-In the case of a component with a high update rate, high complexity and significant amounts
-of state the Singleton approach seemed awkward and potentially painful.
+Things become more complex if you have multiple instances of a component all sharing the same
+ActionCreators and Stores.
 
-Awkward as there would need to be code in Stores, ActionCreators and Views to distinguish Actions
-by component ID. With Singletons each instance of your component would have to generate a unique ID
-and pass that around as a namespace for your component data. You wouldn't want a chat message from
-one chat window being added to every single chat thread. This would result in a lot of boilerplate
-code that passes around IDs and filters data based on these IDs.
+#### Distinguishing data for component instances
+
+If you have multiple instances of a component you can distinguish data by a unique component ID.
+You need to add code in Stores, ActionCreators and Views to distinguish Actions by component ID.
+With Singletons each instance of your component must generate a unique ID and pass that around as
+a namespace for its data. You wouldn't want a chat message inputted in one chat window being added to
+every single chat thread. This results in some boilerplate code; code that passes around
+IDs and filters data based on these IDs.
 
 {% highlight javascript %}
 getAllForThread: function(threadID) {
@@ -84,8 +85,12 @@ getAllForThread: function(threadID) {
 
 The snippet above, from the Flux chat example application, displays the sort of boilerplate
 required. Not complex by an stretch but removing this incidental complexity is a plus.
+Given that our components have a high complexity and significant amounts of state this
+approach seemed awkward. We would need to add ID boilerplate code in a lot of classes.
 
-The other worry are performance issues due to the high volume of data flowing into Stores
+#### Performance
+
+The other worry was performance issues due to the high volume of data flowing into Stores
 which then emit change events and trigger a View rerender. As all instances of a View would be
 registered to the same Store they would all be notified on a Store state change.
 
