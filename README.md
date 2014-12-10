@@ -55,7 +55,7 @@ These constraints meant that we were wary of adopting the Flux pattern as implem
 were appealing but the exact mechanics we wanted to tweak.
 
 The change we made to the pattern was to make the actors of the system class instances.
-In the example Flux applications the Stores, ActionCreators and Dispatchers are all Singletons.
+In the example Flux applications the Stores, ActionCreators and Dispatchers are all singletons.
 This is fine if you only have one instance of a component (let's say a shopping cart). With one
 component instance you don't need multiple instances of its ActionCreators or Stores.
 
@@ -66,7 +66,7 @@ ActionCreators and Stores.
 
 If you have multiple instances of a component you can distinguish data by a unique component ID.
 You need to add code in Stores, ActionCreators and Views to distinguish Actions by component ID.
-With Singletons each instance of your component must generate a unique ID and pass that around as
+With singletons each instance of your component must generate a unique ID and pass that around as
 a namespace for its data. You wouldn't want a chat message inputted in one chat window being added to
 every single chat thread. This results in some boilerplate code; code that passes around
 IDs and filters data based on these IDs.
@@ -84,15 +84,15 @@ getAllForThread: function(threadID) {
 {% endhighlight %}
 
 The snippet above, from the Flux chat example application, displays the sort of boilerplate
-required. Not complex by an stretch but removing this incidental complexity is a plus.
+required. Not complex, but removing this accidental complexity is a plus.
 Given that our components have a high complexity and significant amounts of state this
 approach seemed awkward. We would need to add ID boilerplate code in a lot of classes.
 
 #### Performance
 
-The other worry was performance issues due to the high volume of data flowing into Stores
-which then emit change events and trigger a View rerender. As all instances of a View would be
-registered to the same Store they would all be notified on a Store state change.
+The other concern was performance. Issues could arise due to the high volume of data events flowing
+into Stores. The Stores emit change events which trigger a View rerender. As all instances of a View
+would be registered to the same Store they would all be notified on a Store state change.
 
 {% highlight javascript %}
 case ActionTypes.CLICK_THREAD:
@@ -102,7 +102,7 @@ case ActionTypes.CLICK_THREAD:
 	break;
 {% endhighlight %}
 
-The snippet above, again from the Flux chat example application, shows how when the store
+The snippet above, again from the Flux chat example application, shows how when the Store
 changes its state it indiscriminately notifies all the component Views listening to it.
 If you have 10 chat windows and one triggers an Action which updates its Store all 10 chat window
 Views could trigger a rerender. There are several reasons why when using React it shouldn't result in
@@ -113,5 +113,7 @@ Given the high update rates for certain tiles, which would trigger rerender requ
 might not even be visible we had to consider the possibility of needing those custom
 `shouldComponentUpdate` methods.
 
-While all of the above concerns are highly tractable, it would have been preferable if we
-didn't need to worry about them at all.
+While the above concerns are tractable, using instances instead of singletons allowed us not to worry
+about them.
+
+## Implementing the changes
