@@ -55,17 +55,17 @@ These constraints meant that we were wary of adopting the Flux pattern as implem
 were appealing but the exact mechanics we wanted to tweak.
 
 The change we made to the pattern was to make the actors of the system class instances.
-In the example Flux applications the Stores, ActionCreators and Dispatchers are all singletons.
+In the example Flux applications the stores, action creators and dispatchers are all singletons.
 This is fine if you only have one instance of a component (let's say a shopping cart). With one
-component instance you don't need multiple instances of its ActionCreators or Stores.
+component instance you don't need multiple instances of its action creators or stores.
 
 Things become more complex if you have multiple instances of a component all sharing the same
-ActionCreators and Stores.
+action creators and stores.
 
 #### Distinguishing data for component instances
 
 If you have multiple instances of a component you can distinguish data by a unique component ID.
-You need to add code in Stores, ActionCreators and Views to distinguish Actions by component ID.
+You need to add code in stores, action creators and views to distinguish actions by component ID.
 With singletons each instance of your component must generate a unique ID and pass that around as
 a namespace for its data. You wouldn't want a chat message inputted in one chat window being added to
 every single chat thread. This results in some boilerplate code; code that passes around
@@ -91,8 +91,8 @@ approach seemed awkward. We would need to add ID boilerplate code in a lot of cl
 #### Performance
 
 The other concern was performance. Issues could arise due to the high volume of data events flowing
-into Stores. The Stores emit change events which trigger a View rerender. As all instances of a View
-would be registered to the same Store they would all be notified on a Store state change.
+into stores. The stores emit change events which trigger a view rerender. As all instances of a view
+would be registered to the same store they would all be notified on a store state change.
 
 {% highlight javascript %}
 case ActionTypes.CLICK_THREAD:
@@ -102,10 +102,10 @@ case ActionTypes.CLICK_THREAD:
 	break;
 {% endhighlight %}
 
-The snippet above, again from the Flux chat example application, shows how when the Store
-changes its state it indiscriminately notifies all the component Views listening to it.
-If you have 10 chat windows and one triggers an Action which updates its Store all 10 chat window
-Views could trigger a rerender. There are several reasons why when using React it shouldn't result in
+The snippet above, again from the Flux chat example application, shows how when the store
+changes its state it indiscriminately notifies all the component views listening to it.
+If you have 10 chat windows and one triggers an action which updates its store all 10 chat window
+views could trigger a rerender. There are several reasons why when using React it shouldn't result in
 too much waste. Firstly it batches Virtual DOM diffing secondly the Virtual DOM prevents unnecessary
 DOM updates and finally you could implement custom `shouldComponentUpdate` methods for your components.
 
