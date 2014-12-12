@@ -117,3 +117,14 @@ While the above concerns are tractable, using instances instead of singletons al
 about them.
 
 ## Implementing the changes
+
+Deciding to use instances instead of singletons required a different approach to accessing the
+actors in a Flux system. With singletons all you had to do was `require` the modules.
+
+{% highlight javascript %}
+var MessageStore = require('../stores/MessageStore');
+...
+var ThreadStore = require('../stores/ThreadStore');
+var UnreadThreadStore = require('../stores/UnreadThreadStore');
+{% endhighlight %}
+
