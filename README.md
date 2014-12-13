@@ -128,26 +128,40 @@ var ThreadStore = require('../stores/ThreadStore');
 var UnreadThreadStore = require('../stores/UnreadThreadStore');
 {% endhighlight %}
 
-The approach we took was to use a simple factory. The factory API is quite simple with getters for
-any of the actors in the Flux pattern.
+The approach we took was to use a factory. The factory API has getters for the actors in the Flux
+pattern.
 
 {% highlight javascript %}
-class TileDependenciesFactory {
+class FluxDependenciesFactory {
 	constructor(dispatcher) {}
 
-	getActionCreator(actionCreatorName) {}
-	getUtility(utilityName) {}
-	getStore(storeName) {}
 	getDispatcher {}
+	getStore(storeName) {}
+	getUtility(utilityName) {}
+	getActionCreator(actionCreatorName) {}
 
-	registerActionCreator(actionCreatorName, actionCreatorClass) {}
-	registerUtility(utilityName, utilityClass) {}
 	registerStore(storeName, storeClass) {}
+	registerUtility(utilityName, utilityClass) {}
+	registerActionCreator(actionCreatorName, actionCreatorClass) {}
 }
 {% endhighlight %}
 
-The first time a request for an actor was received by the factory it would create it any subsequent
-requests.
+The first time a request for an actor is received by the factory it will create it; any subsequent
+requests for that actor will return the same instance.
 
-To allow all the actors in a component
-to use the same instances the factory would be scoped per component.
+To allow all the actors in a component to use the same instances the factory would be scoped per
+component. So for each instance of a component, such as an FX tile, we would create a new factory
+and pass that factory into the component as a view `prop`.
+
+{% highlight javascript %}
+const componentDispatcher = new Flux.Dispatcher();
+const fluxDependenciesFactory = new FluxDependenciesFactory(componentDispatcher);
+
+populateFactory(fluxDependenciesFactory);
+
+React.renderComponent(
+	<Tile factory={fluxDependenciesFactory} />,
+	this._mountNode
+);
+{% endhighlight %}
+
