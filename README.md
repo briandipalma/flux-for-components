@@ -19,7 +19,7 @@ since before frameworks like Angular and Ember were mature. Knockout though has 
 it's limitations and age.
 
 Knockout needs the data that it binds to the DOM to be wrapped in Knockout observables.
-It's all about observables. Knockout observables end up spreading everywhere. If an observable
+Knockout observables end up spreading everywhere. If an observable
 depends on another observable in a different model class you will need to couple those two
 model classes by passing the observable. Classes can reach inside each other and access observables
 without a second thought. They would modify the observable value if they needed, there was no
@@ -85,14 +85,14 @@ getAllForThread: function(threadID) {
 
 The snippet above, from the Flux chat example application, displays the sort of boilerplate
 required. Not complex, but removing this accidental complexity is a plus.
-Given that our components have a high complexity and significant amounts of state this
-approach seemed awkward. We would need to add ID boilerplate code in a lot of classes.
+Given that our components have a high complexity and significant amounts of state we would need to
+add ID boilerplate code in a lot of classes.
 
 #### Performance
 
 The other concern was performance. Issues could arise due to the high volume of data events flowing
 into stores. The stores emit change events which trigger a view rerender. As all instances of a view
-would be registered to the same store they would all be notified on a store state change.
+would be registered to the same store they would all be notified of a store state change.
 
 {% highlight javascript %}
 case ActionTypes.CLICK_THREAD:
@@ -104,12 +104,12 @@ case ActionTypes.CLICK_THREAD:
 
 The snippet above, again from the Flux chat example application, shows how when the store
 changes its state it indiscriminately notifies all the component views listening to it.
-If you have 10 chat windows and one triggers an action which updates its store all 10 chat window
+If you have 10 chat windows and one action triggers an update to its store all 10 chat window
 views could trigger a rerender. There are several reasons why when using React it shouldn't result in
 too much waste. Firstly it batches Virtual DOM diffing secondly the Virtual DOM prevents unnecessary
 DOM updates and finally you could implement custom `shouldComponentUpdate` methods for your components.
 
-Given the high update rates for certain tiles, which would trigger rerender requests for tiles that
+Given the high update rates for certain tiles, which could trigger rerender requests for tiles that
 might not even be visible we had to consider the possibility of needing those custom
 `shouldComponentUpdate` methods.
 
@@ -148,7 +148,7 @@ class FluxDependenciesFactory {
 
 For each instance of a component, such as an FX tile, we would create a new factory
 and pass that factory into the component as a view `prop`. The React `Tile` view component would
-pass the factory on downward to it's child view components. From that point in the view downward
+pass the factory on downward to its child view components. From that point in the view downward
 the dispatcher, views, stores and action creators would all share the same dependency instances.
 These instances would be separate from the instances in another `Tile` view component.
 
@@ -181,3 +181,8 @@ requests for that actor will return the same instance.
 {% highlight javascript %}
 const store = this.props.factory.getStore('TenorLadderRowButton');
 {% endhighlight %}
+
+### Drawbacks to the changes
+
+The tradeoffs to this approach are having to pass the factory into your view components and
+the code to register the actors the factory creates.
