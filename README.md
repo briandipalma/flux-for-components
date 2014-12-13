@@ -128,3 +128,26 @@ var ThreadStore = require('../stores/ThreadStore');
 var UnreadThreadStore = require('../stores/UnreadThreadStore');
 {% endhighlight %}
 
+The approach we took was to use a simple factory. The factory API is quite simple with getters for
+any of the actors in the Flux pattern.
+
+{% highlight javascript %}
+class TileDependenciesFactory {
+	constructor(dispatcher) {}
+
+	getActionCreator(actionCreatorName) {}
+	getUtility(utilityName) {}
+	getStore(storeName) {}
+	getDispatcher {}
+
+	registerActionCreator(actionCreatorName, actionCreatorClass) {}
+	registerUtility(utilityName, utilityClass) {}
+	registerStore(storeName, storeClass) {}
+}
+{% endhighlight %}
+
+The first time a request for an actor was received by the factory it would create it any subsequent
+requests.
+
+To allow all the actors in a component
+to use the same instances the factory would be scoped per component.
