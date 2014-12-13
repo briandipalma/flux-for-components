@@ -146,9 +146,6 @@ class FluxDependenciesFactory {
 }
 {% endhighlight %}
 
-The first time a request for an actor is received by the factory it will create it; any subsequent
-requests for that actor will return the same instance.
-
 To allow all the actors in a component to use the same instances the factory would be scoped per
 component. So for each instance of a component, such as an FX tile, we would create a new factory
 and pass that factory into the component as a view `prop`.
@@ -159,9 +156,22 @@ const fluxDependenciesFactory = new FluxDependenciesFactory(componentDispatcher)
 
 populateFactory(fluxDependenciesFactory);
 
-React.renderComponent(
+React.render(
 	<Tile factory={fluxDependenciesFactory} />,
 	this._mountNode
 );
 {% endhighlight %}
 
+The React `Tile` view component would pass the factory on downward to it's child view components.
+From that point in the view downward the dispatcher, views, stores and action creators would all
+share the same instances. These instances would be separate from the instances in another `Tile`
+view component.
+
+The first time a request for an actor is received by the factory it will create it; any subsequent
+requests for that actor will return the same instance.
+
+{% highlight javascript %}
+componentWillMount: function() {
+	const store = this.props.factory.getStore('TenorLadderRowButton');
+}
+{% endhighlight %}
