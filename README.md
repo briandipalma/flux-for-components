@@ -186,3 +186,17 @@ const store = this.props.factory.getStore('TenorLadderRowButton');
 
 The tradeoffs to this approach are having to pass the factory into your view components and
 the code to register the actors the factory creates.
+
+### Extra advantages
+
+There are some other benefits from this approach, apart from the ones mentioned above. Unit testing
+doesn't have to rely on mocking modules that are returned from `require`. It's trivial to provide
+mocks to stores and views as you pass a mock factory into them during testing. Also the factory can
+pass state in the form of [cursors](https://github.com/swannodette/om/wiki/Cursors) into stores when
+it creates them. This is useful for deserialized components, to make sure they are created on with
+the state the user saved.
+
+## Right tool for the job
+
+For simple to medium complexity components
+this approach might not be work the overhead - in fact pure React without Flux might be enough.
