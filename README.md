@@ -198,5 +198,8 @@ the state the user saved.
 
 ## Right tool for the job
 
+There is clearly an overhead to building components in this fashion. So it's important to point out
+that this isn't meant to be the one true way to build components. In fact it would be more accurate
+
 For simple to medium complexity components
 this approach might not be work the overhead - in fact pure React without Flux might be enough.
