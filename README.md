@@ -189,12 +189,14 @@ the code to register the actors the factory creates.
 
 ### Extra advantages
 
-There are some other benefits from this approach, apart from the ones mentioned above. Unit testing
-doesn't have to rely on mocking modules that are returned from `require`. It's trivial to provide
-mocks to stores and views as you pass a mock factory into them during testing. Also the factory can
-pass state in the form of [cursors](https://github.com/swannodette/om/wiki/Cursors) into stores when
-it creates them. This is useful for deserialized components, to make sure they are created on with
-the state the user saved. Also singleton state adds more complexity to server side rendering.
+There are other benefits with this approach, apart from the ones mentioned above.
+
+* Unit testing doesn't have to rely on mocking required modules. It's trivial to provide mocks to
+stores and views as you pass a mock factory into them during testing.
+* The factory can pass state in the form of [cursors](https://github.com/swannodette/om/wiki/Cursors)
+into stores when it creates them. This is useful for deserialized components.
+* It makes server side rendering simpler, as you create classes per request. Using a singleton
+would result in shared state for each request until the server is restarted.
 
 ## Right tool for the job
 
