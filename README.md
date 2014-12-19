@@ -197,11 +197,14 @@ stores and views as you pass a mock factory into them during testing.
 into stores when it creates them. This is useful for deserialized components.
 * It makes server side rendering simpler, as you create classes per request. Using a singleton
 would result in shared state for each request until the server is restarted.
+* For framework creators this approach could allow the consumers of the framework components to
+provide their own versions of the actors. This would require a way for consumers to hook into the
+actor registration phase.
 
 ## Right tool for the job
 
 There is clearly an overhead to building components in this fashion. So it's important to point out
-that this isn't meant to be the one true way to build components. In fact it would be more accurate
+that this isn't meant to be the one true way to build all components.
 
-For simple to medium complexity components
-this approach might not be work the overhead - in fact pure React without Flux might be enough.
+* For simple to medium complexity components pure React might suffice. Components where data flows
+downward through a parent component and there is low need for upward communication between components.
