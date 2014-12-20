@@ -182,7 +182,7 @@ requests for that actor will return the same instance.
 const store = this.props.factory.getStore('TenorLadderRowButton');
 {% endhighlight %}
 
-### Drawbacks to the changes
+### Drawbacks
 
 The tradeoffs to this approach are having to pass the factory into your view components and
 the code to register the actors the factory creates.
@@ -208,3 +208,9 @@ that this isn't meant to be the one true way to build all components.
 
 * For simple to medium complexity components pure React might suffice. Components where data flows
 downward through a parent component and there is low need for upward communication between components.
+* With medium to high complexity components you should start using Flux. This is where events need to
+be passed back up the component hierarchy or there is a lot of computed state based on data spread over
+many components.
+
+The chosen approach should be as complex as required and no more complex, and sometimes it turns out
+that singletons are too simple.
