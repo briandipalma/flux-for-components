@@ -41,7 +41,7 @@ a benchmark we have been set before. Tiles could be opened up, so they could dis
 multiple prices (different settlement dates or traded amounts would have different prices).
 This meant a tile could have 9 separate sets of prices streaming in, one for each row in a ladder.
 
-![example FX application](http://www.caplin.com/images/marketing-images/CaplinFXMotifScreenshot.jpg)
+![example FX application](https://globalmarkets.bnpparibas.info/gm/features/images/FX/Screenshot_CortexFX_Pricing_Engine.jpg)
 
 We also have tabbed layouts which allowed clients to have background tabs open with a different set
 of tiles. These tiles would not be visible and we didn't want hidden components to interfere with the
@@ -209,8 +209,7 @@ that this isn't meant to be the one true way to build all components.
 * For simple to medium complexity components pure React might suffice. Components where data flows
 downward through a parent component and there is low need for upward communication between components.
 * With medium to high complexity components you should start using Flux. This is where events need to
-be passed back up the component hierarchy or there is a lot of computed state based on data spread over
-many components.
+be passed back up the component hierarchy or there is a lot of computed state.
 
 The chosen approach should be as complex as required and no more complex, and sometimes it turns out
 that singletons are too simple.
