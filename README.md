@@ -36,10 +36,10 @@ well defined and consistent data flow.
 
 Our applications are real time trading solutions. They must handle spikes in streaming
 traffic and high levels of updates. We could have clients with 10+ FX tiles open in a layout, each
-of those streaming updates for highly active currency pairs. 4 updates a second per currency pair was
+receiving updates for a highly active currency pair. 4 updates a second per currency pair was
 a benchmark we have been set before. Tiles could be opened up, so they could display
 multiple prices (different settlement dates or traded amounts would have different prices).
-This meant a tile could have 9 separate sets of prices streaming in, one for each row in a ladder.
+This meant a tile could have 9 separate prices streaming in, one for each row in a ladder.
 
 ![example FX application](https://globalmarkets.bnpparibas.info/gm/features/images/FX/Screenshot_CortexFX_Pricing_Engine.jpg)
 
@@ -103,7 +103,7 @@ case ActionTypes.CLICK_THREAD:
 {% endhighlight %}
 
 The snippet above, again from the Flux chat example application, shows how when the store
-changes its state it indiscriminately notifies all the component views listening to it.
+changes its state it notifies all the component views listening to it.
 If you have 10 chat windows and one action triggers an update to its store all 10 chat window
 views could trigger a rerender. There are several reasons why when using React it shouldn't result in
 too much waste. Firstly it batches Virtual DOM diffing secondly the Virtual DOM prevents unnecessary
@@ -207,9 +207,9 @@ There is clearly an overhead to building components in this fashion. So it's imp
 that this isn't meant to be the one true way to build all components.
 
 * For simple to medium complexity components pure React might suffice. Components where data flows
-downward through a parent component and there is low need for upward communication between components.
+downward and there is low need for upward communication between components.
 * With medium to high complexity components you should start using Flux. This is where events need to
 be passed back up the component hierarchy or there is a lot of computed state.
 
-The chosen approach should be as complex as required and no more complex, and sometimes it turns out
+The chosen approach should be as simple as required and no more simple, sometimes it turns out
 that singletons are too simple.
