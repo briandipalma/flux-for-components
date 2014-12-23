@@ -211,5 +211,5 @@ downward and there is low need for upward communication between components.
 * With medium to high complexity components you should start using Flux. This is where events need to
 be passed back up the component hierarchy or there is a lot of computed state.
 
-The chosen approach should be as simple as required and no more simple, sometimes it turns out
-that singletons are too simple.
+The chosen approach should be as simple as required and no simpler, sometimes it turns out
+that singletons are just too simple.
