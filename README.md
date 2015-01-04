@@ -62,12 +62,11 @@ action creators and stores.
 
 #### Distinguishing data for component instances
 
-If you have multiple instances of a component you can distinguish data by a unique component ID.
-You need to add code in stores, action creators and views to distinguish actions by component ID.
 With singletons each instance of your component must generate a unique ID and pass that around as
-a namespace for its data. You wouldn't want a chat message inputted in one chat window being added to
-every single chat thread. This results in some boilerplate code; code that passes around
-IDs and filters data based on these IDs.
+a namespace for its data and actions. As all view components store their data in the same store they
+need to be able to segregate their data from other view components. You wouldn't want a chat message
+inputted in one chat input being added to every single chat window. This results in some boilerplate
+code; code that passes around IDs and filters data based on these IDs.
 
 {% highlight javascript %}
 getAllForThread: function(threadID) {
@@ -82,13 +81,13 @@ getAllForThread: function(threadID) {
 {% endhighlight %}
 
 The snippet above, from the Flux chat example application, displays the sort of boilerplate
-required. Not complex, but removing this accidental complexity is a plus.
-Given that our components have a high complexity and significant amounts of state we would need to
-add ID boilerplate code in a lot of classes.
+required. The namespace here is provided by `threadID`. Not complex, but removing this accidental
+complexity is a plus. Given that our components have a high complexity and significant amounts of
+state we would need to add ID boilerplate code in a lot of classes.
 
 #### Performance
 
-The other concern was performance. Issues could arise due to the high volume of data events flowing
+Performance issues could arise due to the high volume of data events flowing
 into stores. The stores emit change events which trigger a view rerender. As all instances of a view
 would be registered to the same store they would all be notified of a store state change.
 
