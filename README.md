@@ -6,17 +6,15 @@ subtitle: The Flux pattern, without the globals
 
 ---
 
-There is no shared, single version of Flux, the one source of truth that we can point to.
-That makes sense, it's a software pattern after all. Not a concrete artifact like a library or
-framework. This has encouraged developers to create various implementations of the pattern.
+Flux is a software pattern, not a concrete artifact like a library or framework. This has
+encouraged developers to create various implementations of the pattern.
 I've explained an approach to the Flux pattern often enough that I felt it was time to put
-it into a blog.
+it into a blog. The approach creates instances for the Flux actors instead of using singletons.
 
 ## Context
 
-I've been working on Knockout based applications for several years;
-since before frameworks like Angular and Ember were mature. Knockout though has been showing some of
-it's limitations and age.
+I've worked on Knockout based applications for years; since before frameworks like Angular and
+Ember were mature. Knockout though has been showing some of it's limitations and age.
 
 Knockout needs the data that it binds to the DOM to be wrapped in Knockout observables.
 Knockout observables end up spreading everywhere. If an observable
@@ -35,10 +33,10 @@ well defined and consistent data flow.
 ## Constraints
 
 Our applications are real time trading solutions. They must handle spikes in streaming
-traffic and high levels of updates. We could have clients with 10+ FX tiles open in a layout, each
+traffic and high levels of updates. Clients could have 10+ FX tiles open in a layout, each
 receiving updates for a highly active currency pair. 4 updates a second per currency pair was
-a benchmark we have been set before. Tiles could be opened up, so they could display
-multiple prices (different settlement dates or traded amounts would have different prices).
+a realistic benchmark. Tiles could be opened up, displaying multiple prices
+(different settlement dates or traded amounts would have different prices).
 This meant a tile could have 9 separate prices streaming in, one for each row in a ladder.
 
 ![example FX application](https://globalmarkets.bnpparibas.info/gm/features/images/FX/Screenshot_CortexFX_Pricing_Engine.jpg)
