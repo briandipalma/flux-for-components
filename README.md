@@ -63,9 +63,9 @@ action creators and stores.
 #### Distinguishing data for component instances
 
 With singletons each instance of your component must generate a unique ID and pass that around as
-a namespace for its data and actions. As all view components store their data in the same store they
+a namespace for its data and actions. As all view components keep their data in the same store they
 need to be able to segregate their data from other view components. You wouldn't want a chat message
-inputted in one chat input being added to every single chat window. This results in some boilerplate
+inputted in one chat box being added to every chat window. This results in some boilerplate
 code; code that passes around IDs and filters data based on these IDs.
 
 {% highlight javascript %}
@@ -100,7 +100,7 @@ case ActionTypes.CLICK_THREAD:
 {% endhighlight %}
 
 The snippet above, again from the Flux chat example application, shows how when the store
-changes its state it notifies all the component views listening to it.
+changes its state it notifies the component views listening to it.
 If you have 10 chat windows and one action triggers an update to its store all 10 chat window
 views could trigger a rerender. There are several reasons why when using React it shouldn't result in
 too much waste. Firstly it batches Virtual DOM diffing secondly the Virtual DOM prevents unnecessary
@@ -115,8 +115,8 @@ about them.
 
 ## Implementing the changes
 
-Deciding to use instances instead of singletons required a different approach to accessing the
-actors in a Flux system. With singletons all you had to do was `require` the modules.
+Using instances instead of singletons requires a different approach to accessing the
+actors in a Flux system. With singletons all you do is `require` the modules.
 
 {% highlight javascript %}
 var MessageStore = require('../stores/MessageStore');
@@ -144,14 +144,14 @@ class FluxDependenciesFactory {
 {% endhighlight %}
 
 For each instance of a component, such as an FX tile, we would create a new factory
-and pass that factory into the component as a view `prop`. The React `Tile` view component would
+and pass that factory into the root component as a view `prop`. The React `Tile` view component would
 pass the factory on downward to its child view components. From that point in the view downward
 the dispatcher, views, stores and action creators would all share the same dependency instances.
 These instances would be separate from the instances in another `Tile` view component.
 
 {% highlight javascript %}
-const componentDispatcher = new Flux.Dispatcher();
-const fluxDependenciesFactory = new FluxDependenciesFactory(componentDispatcher);
+const dispatcher = new Flux.Dispatcher();
+const fluxDependenciesFactory = new Factory(dispatcher);
 
 populateFactory(fluxDependenciesFactory);
 
@@ -165,10 +165,10 @@ The `populateFactory` function would register the constructors of the actors
 by their name.
 
 {% highlight javascript %}
-function populateFactory(fluxDependenciesFactory) {
+function populateFactory(factory) {
 	...
-	fluxDependenciesFactory.registerStore('TenorLadderRowDate', TenorLadderRowDateStore);
-	fluxDependenciesFactory.registerStore('TenorLadderRowButton', TenorLadderRowButtonStore);
+	factory.registerStore('TenorLadderRowDate', TenorLadderRowDateStore);
+	factory.registerStore('TenorLadderRowButton', TenorLadderRowButtonStore);
 }
 {% endhighlight %}
 
